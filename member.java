@@ -1,25 +1,37 @@
 public class member extends person{
-    private String membershipType;
+    private int memberShipLength; //in months
     private int memberPrice;
+    private boolean HasWorkedOut;
     
-    public member(int I, String N, String ms, int mp){
+    public member(String N, int I,  int mt){
         super(N,I);
-        this.membershipType = ms;
-        this.memberPrice = mp;
+        setMembershipLength(mt);
+        setMemberPrice(mt);
     }
 
-    public String toString(){  // Display member info
-
-    }
-
-
-
-    public boolean changeMemberShip(){ // Change's Membership type
+    public void DisplayInfo(){  // Display member info
 
     }
 
-    public void usemachine(double timeOfUse){
 
+
+    public int calculate_memberShipPrice(){
+        int price = memberShipLength * 100; //The price of one month = 100
+        
+        return price;
+    }
+
+    public void Workout(){
+
+    }   
+
+    
+    //Setters and Getters
+    public void setMembershipLength(int memberShipLength) {
+        this.memberShipLength = memberShipLength;
+    }
+    public void setMemberPrice(int memberPrice) {
+        memberPrice = calculate_memberShipPrice();
     }
     
 }

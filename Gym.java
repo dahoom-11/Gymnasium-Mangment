@@ -1,20 +1,18 @@
 public class Gym {
-    private int address;
-    private int name;
+    private String name;
+    private int Balance;
 
-    private member meList[];
-    private int NoMe;
+    private person peList[];
+    private int PersonCount;
     
-    private staff coList[];
-    private int NoCo;
-
     private machine maList[];
-    private int NoMa;
+    private int MachineCount;
 
-    public Gym(int melen,int colen, int malen){ // constructor
-        meList = new member[melen];
-        coList = new staff[colen]; 
-        maList = new machine[malen];
+    public Gym(int getBalance, String name, int PersonLength, int MachineLength){ // constructor
+        setName(name);
+        setBalance(Balance);
+        peList = new member[PersonLength];
+        maList = new machine[MachineLength];
 
     }
 
@@ -23,13 +21,32 @@ public class Gym {
 
     }
 
-    public void AddCoaches(staff C){ // using recursion
+    public void AddPerson(person C){ // using recursion
+        //If member then add it to the array
+        //Add MemberShip price to Gym Balance
+
+        //If other add it normally
 
     }
 
-    public void AddMember(member M){
+    
 
+    // Setters and Getters
+
+    public String getName(){
+        return name;
     }
 
+    public int getgetBalance() {
+        return Balance;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setBalance(int Balance) {
+        this.Balance = Balance;
+    }
 
 }

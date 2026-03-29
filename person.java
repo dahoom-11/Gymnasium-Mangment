@@ -1,9 +1,11 @@
 public abstract class person {
-    private String name;
-    private int id;
+    protected String name;
+    protected int id;
 
     public person(String N, int I){
         this.name = N;
         this.id = I;
     }
+
+    //Abstract methods need to be added
 }
