@@ -2,18 +2,17 @@ public class Gym {
     private String name;
     private int Balance;
 
-    private person peList[];
+    private Person peList[];
     private int PersonCount;
     
     private machine maList[];
     private int MachineCount;
 
-    public Gym(int getBalance, String name, int PersonLength, int MachineLength){ // constructor
+    public Gym(String name, int PersonLength, int MachineLength){ // constructor
         setName(name);
         setBalance(Balance);
-        peList = new member[PersonLength];
+        peList = new Person[PersonLength];
         maList = new machine[MachineLength];
-
     }
 
 
@@ -21,7 +20,7 @@ public class Gym {
 
     }
 
-    public void AddPerson(person C){ // using recursion
+    public void AddPerson(Person P){ // using recursion
         //If member then add it to the array
         //Add MemberShip price to Gym Balance
 
@@ -37,7 +36,7 @@ public class Gym {
         return name;
     }
 
-    public int getgetBalance() {
+    public int getBalance() {
         return Balance;
     }
 

@@ -1,9 +1,9 @@
-public class member extends person{
+public class Member extends Person {
     private int memberShipLength; //in months
     private int memberPrice;
     private boolean HasWorkedOut;
     
-    public member(String N, int I,  int mt){
+    public Member(String N, int I,  int mt){
         super(N,I);
         setMembershipLength(mt);
         setMemberPrice(mt);

@@ -1,6 +1,4 @@
-public class machine {
-    protected int id;
-    protected String name;
+public interface Machine {
 
-    
+    public void use();
 }

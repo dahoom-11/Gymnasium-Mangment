@@ -1,3 +1,4 @@
-public class coach extends staff {
-    
+public class Coach extends Staff {
+    private boolean coachinglesson;
+
 }

@@ -1,3 +1,4 @@
+import java.lang.reflect.Member;
 import java.lang.runtime.SwitchBootstraps;
 import java.util.*;
 public class main {
@@ -25,7 +26,7 @@ public class main {
                     int NumMac = i.nextInt();
 
                     // add to Gym list
-                    Gym G1 = new Gym(Add, name, (NumMem+NumSta), NumMac);
+                    Gym G1 = new Gym(name, (NumMem+NumSta), NumMac);
                     GymList[count] = G1;
                     count++;
                     // User back to main menu not done yet
@@ -59,7 +60,7 @@ public class main {
                                     int id = i.nextInt();
                                     int MemType = i.nextInt();
 
-                                    person M1 = new member(name, id, MemType);
+                                    Person M1 = new Member(name, id, MemType);
                                     GymList[0].AddPerson(M1);
                                     
                             }
