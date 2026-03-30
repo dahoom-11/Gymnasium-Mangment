@@ -2,30 +2,39 @@ public class Gym {
     private String name;
     private int Balance;
 
-    private Person peList[];
-    private int PersonCount;
+    private Member peList[];
+    private int MemberCount;
     
-    private machine maList[];
+    private Staff stList[];
+    private int StaffCount;
+
+    private Machine maList[];
     private int MachineCount;
 
-    public Gym(String name, int PersonLength, int MachineLength){ // constructor
+    public Gym(String name, int MemberLength, int StaffLength,  int MachineLength){ // constructor
         setName(name);
         setBalance(Balance);
-        peList = new Person[PersonLength];
-        maList = new machine[MachineLength];
+        
+        peList = new Member[MemberLength];
+        stList = new Staff[StaffLength];
+        maList = new Machine[MachineLength];
     }
 
 
-    public void AddMachines(machine M){ // using recursion
+    public void AddMachines(String name){ // using recursion
+        // create the Machine object in this function to make a compostion relation
+    }   
 
-    }
-
-    public void AddPerson(Person P){ // using recursion
+    public void AddMember(String name, int id , ){ // using recursion
         //If member then add it to the array
         //Add MemberShip price to Gym Balance
+        // every three members need atleast 1 machines and 1 coach
+        
+    }
 
-        //If other add it normally
+    public void AddStaff(Staff S){ //using recursion
 
+        
     }
 
     

@@ -1,14 +1,12 @@
 public abstract class Staff extends Person{
     private int income;
 
-    
-
-    public Staff(String name, int id, int income){
-        super(name, income);
+    public Staff(String name, String id, int income){
+        super(name, id);
         setincome(income);
-    }
+    }  
 
-
+    public abstract int calculate_income();
 
     //Setters and Getters
 

@@ -1,7 +1,5 @@
-import java.lang.reflect.Member;
-import java.lang.runtime.SwitchBootstraps;
 import java.util.*;
-public class main {
+public class test{
     
     public static void main(String args[]){
         Scanner i = new Scanner(System.in);
@@ -26,7 +24,7 @@ public class main {
                     int NumMac = i.nextInt();
 
                     // add to Gym list
-                    Gym G1 = new Gym(name, (NumMem+NumSta), NumMac);
+                    Gym G1 = new Gym(name, NumMem, NumSta, NumMac);
                     GymList[count] = G1;
                     count++;
                     // User back to main menu not done yet
@@ -60,9 +58,8 @@ public class main {
                                     int id = i.nextInt();
                                     int MemType = i.nextInt();
 
-                                    Person M1 = new Member(name, id, MemType);
-                                    GymList[0].AddPerson(M1);
-                                    
+                                    Member M1 = new Member(name, id, MemType);
+                                    GymList[0].AddMember(M1);
                             }
 
                             
@@ -75,10 +72,10 @@ public class main {
                     /*
                     Gym Managment Goals
                     System.out.println("1-Sign up Member");
-                    System.out.println("2-Workout");
+                    System.out.println("2-Workout") //
+                    System.out.println("5-Get a Coaching Lesson");
                     System.out.println("3-Add Machines");
                     System.out.println("4-Add Coach");
-                    System.out.println("5-Get a Coaching Leasson");
                     System.out.println("6-Display Gym info");
                     Just general it will be change
                     */
