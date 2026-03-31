@@ -1,5 +1,5 @@
 
-public abstract class Person {
+public abstract class Person implements Displayable {
 	
     protected String name;
     protected int id;
@@ -11,10 +11,13 @@ public abstract class Person {
     }
 
     // Display person info
-    public abstract void displayInfo();
+   
     
     // Define person role (behavior)
-    public abstract void performRole();
+  
+
+	
+    
     
    
 }

@@ -4,56 +4,42 @@ public class Gym {
     private String name;
     private int Balance;
 
-    private Person peList[];
-    private int PersonCount;
+    
+    private Member memberList[];
+    private int memberCount;
+    
+    private Staff staffList[];
+    private int staffCount;
     
     private Machine maList[];
     private int MachineCount;
 
-    public Gym(String name, int PersonLength, int MachineLength){ // constructor
+    public Gym(String name, int memberLength, int MachineLength, int staffLength ){ // constructor
         setName(name);
-       this.Balance=0;
-        peList = new Person[PersonLength];
-        maList = new Machine[MachineLength];
-        PersonCount=0;
-        MachineCount=0;
+      
+       memberList = new Member[memberLength];
+       maList = new Machine[MachineLength];
+       staffList = new Staff[staffLength];
     }
 
-
-    public void AddMachines(Machine M){ // using recursion
-    	    addMachineRec(M, 0);
-    	}
 
     
-    private void addMachineRec(Machine m, int index){
-        if(index == MachineCount){
-            if(MachineCount < maList.length){
-                maList[index] = m.copy();
-                MachineCount++;
-            } else {
-                System.out.println("Full");
-            }
-            return;
+    public void AddMachines(String name, int index){ // using recursion
+        // create the Machine object in this function to make a compostion relation
+        if(index > maList.length){
+            System.out.println("No More Space");
+            return; // Stop recursion
         }
-
-        addMachineRec(m, index + 1);
+        else if(maList[index] == null){
+            maList[index] = new Machine(name); //Compostion Relation
+            return; // stop recursion
+        }
+        else{ //The recursive Step
+            index++;
+            AddMachines(name, index);
+        }
     }
-  
-    	// Remove machine ------------------------------------------------
-    	public void removeMachine(int index){
-    	    if(index >= 0 && index < maList.length){
-    	        if(maList[index] != null){
-    	            maList[index] = maList[MachineCount-1] ;
-    	            maList[MachineCount-1]=null;
-    	            MachineCount--;
-    	            System.out.println("Machine removed");
-    	        } else {
-    	            System.out.println("No machine at this position");
-    	        }
-    	    } else {
-    	        System.out.println("Invalid index");
-    	    }
-    	}
+
     	 
     	
     	
@@ -62,69 +48,32 @@ public class Gym {
 
         //If other add it normally
     	
-    public void AddPerson(Person P){ 
-    	
-    	    addPersonRec(P, 0);
-    	}
+    
 
-    private void addPersonRec(Person p, int index){
-        if(index == PersonCount){
-            if(PersonCount < peList.length){
-                peList[index] = p;
-                PersonCount++;
+    public void addMember(Member m){
+            if(memberCount < memberList.length) {
+               memberList[memberCount] = m;
+               memberCount++;
 
-                if(p instanceof Member){
-                    Member m = (Member) p;
-                    Balance += m.calculate_memberShipPrice();
+               Balance += m.calculate_memberShipPrice();
+                                   
                 }
-            } else {
+            else {
                 System.out.println("Full");
             }
             return;
-        }
-
-        addPersonRec(p, index + 1);
-    }
-   
-
-    	
-    	// Remove person by id-------------------------------------------
-    	public void removePerson(int id){
-    	    removePersonRec(id, 0);
+}
+    
+    
+    
+    
+        // Search person by id-------------------------------------------
+    	public Member searchMember(int id){
+    	    return searchMemberRec(id, 0);
     	}
     	
-    	private void removePersonRec(int id, int index){
-    	    if(index >= peList.length){
-    	        System.out.println("Person not found");
-    	        return;
-    	    }
-
-    	    if(peList[index] != null && peList[index].id == id){
-    	    	
-    	    	 if(peList[index] instanceof Member){
-    	        Member m = (Member) peList[index];
-    	        Balance -= m.calculate_memberShipPrice();
-    	    }
-    	        peList[index] = peList[PersonCount-1];
-    	        peList[PersonCount-1]=null;
-    	        PersonCount--;
-    	        
-    	        System.out.println("Person removed");
-    	        return;
-    	    }
-    	   
-    	    removePersonRec(id, index+1);
-    	}
-    	
-    	
-    	
-    	// Search person by id-------------------------------------------
-    	public Person searchPerson(int id){
-    	    return searchPersonRec(id, 0);
-    	}
-    	
-    	private Person searchPersonRec(int id, int index){
-    	    if(index >= peList.length){
+    	private Member searchPersonRec(int id, int index){
+    	    if(index >= PersonCount){
     	        return null; // not found
     	    }
 
@@ -132,8 +81,26 @@ public class Gym {
     	        return peList[index];
     	    }
 
-    	    return searchPersonRec(id, index+1);
-    	}
+    	   
+    
+    	
+    
+    
+    	   
+    	
+    	public void addStaff(Staff s){
+        if(staffCount < staffList.length) {
+           staffList[staffCount] = s;
+           staffCount++;
+                               
+            }
+        else {
+            System.out.println("Full");
+        }
+        return;
+}
+    	
+    	
     	
 
     // Setters and Getters
