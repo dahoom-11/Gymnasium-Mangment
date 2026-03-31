@@ -3,10 +3,10 @@ public class Member extends Person implements Displayable{
     private int memberPrice;
     private boolean hasWorkedOut;
     
-    public Member(String name, String id,  int mt){
-        super(N,I);
-        setMembershipLength(mt);
-        setMemberPrice(mt);
+    public Member(String name, String id,  int ml){ // ml MemberShip Length
+        super(name,id);
+        setMembershipLength(ml);
+        setMemberPrice(ml);
     }
 
     public void DisplayInfo(){  // Display member info

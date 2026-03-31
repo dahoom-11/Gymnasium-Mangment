@@ -25,10 +25,10 @@ public class Gym {
         // create the Machine object in this function to make a compostion relation
     }   
 
-    public void AddMember(String name, int id , ){ // using recursion
-        //If member then add it to the array
+    public void AddMember(String name, String id, int ml){ // using recursion
         //Add MemberShip price to Gym Balance
-        // every three members need atleast 1 machines and 1 coach
+        //every three members need atleast 1 machines and 1 coach
+        
         
     }
 

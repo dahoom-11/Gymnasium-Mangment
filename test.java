@@ -55,7 +55,7 @@ public class test{
                                 case 1:
                                     System.out.println("Enter the following: Name, id, MemberShipLength");
                                     name = i.nextLine();
-                                    int id = i.nextInt();
+                                    String id = i.nextLine();
                                     int MemType = i.nextInt();
 
                                     Member M1 = new Member(name, id, MemType);

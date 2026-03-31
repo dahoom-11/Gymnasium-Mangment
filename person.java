@@ -3,8 +3,8 @@ public abstract class Person implements Displayable{
     protected String id;
 
     public Person(String name, String id){
-        this.name = N;
-        if(id.Length == 4){
+        this.name = name;
+        if(id.length() == 4){
             this.id = id; 
         }
         else{
