@@ -1,44 +1,140 @@
+
 public class Gym {
+	
     private String name;
     private int Balance;
 
-    private Member peList[];
-    private int MemberCount;
+    private Person peList[];
+    private int PersonCount;
     
-    private Staff stList[];
-    private int StaffCount;
-
     private Machine maList[];
     private int MachineCount;
 
-    public Gym(String name, int MemberLength, int StaffLength,  int MachineLength){ // constructor
+    public Gym(String name, int PersonLength, int MachineLength){ // constructor
         setName(name);
-        setBalance(Balance);
-        
-        peList = new Member[MemberLength];
-        stList = new Staff[StaffLength];
+       this.Balance=0;
+        peList = new Person[PersonLength];
         maList = new Machine[MachineLength];
+        PersonCount=0;
+        MachineCount=0;
     }
 
 
-    public void AddMachines(String name){ // using recursion
-        // create the Machine object in this function to make a compostion relation
-    }   
-
-    public void AddMember(String name, String id, int ml){ // using recursion
-        //Add MemberShip price to Gym Balance
-        //every three members need atleast 1 machines and 1 coach
-        //Create a Member object (compostion Relation)
-        
-        
-    }
-
-    public void AddStaff(String name, String id, int ml){ //using recursion
-
-        
-    }
+    public void AddMachines(Machine M){ // using recursion
+    	    addMachineRec(M, 0);
+    	}
 
     
+    private void addMachineRec(Machine m, int index){
+        if(index == MachineCount){
+            if(MachineCount < maList.length){
+                maList[index] = m.copy();
+                MachineCount++;
+            } else {
+                System.out.println("Full");
+            }
+            return;
+        }
+
+        addMachineRec(m, index + 1);
+    }
+  
+    	// Remove machine ------------------------------------------------
+    	public void removeMachine(int index){
+    	    if(index >= 0 && index < maList.length){
+    	        if(maList[index] != null){
+    	            maList[index] = maList[MachineCount-1] ;
+    	            maList[MachineCount-1]=null;
+    	            MachineCount--;
+    	            System.out.println("Machine removed");
+    	        } else {
+    	            System.out.println("No machine at this position");
+    	        }
+    	    } else {
+    	        System.out.println("Invalid index");
+    	    }
+    	}
+    	 
+    	
+    	
+        //If member then add it to the array
+        //Add MemberShip price to Gym Balance
+
+        //If other add it normally
+    	
+    public void AddPerson(Person P){ 
+    	
+    	    addPersonRec(P, 0);
+    	}
+
+    private void addPersonRec(Person p, int index){
+        if(index == PersonCount){
+            if(PersonCount < peList.length){
+                peList[index] = p;
+                PersonCount++;
+
+                if(p instanceof Member){
+                    Member m = (Member) p;
+                    Balance += m.calculate_memberShipPrice();
+                }
+            } else {
+                System.out.println("Full");
+            }
+            return;
+        }
+
+        addPersonRec(p, index + 1);
+    }
+   
+
+    	
+    	// Remove person by id-------------------------------------------
+    	public void removePerson(int id){
+    	    removePersonRec(id, 0);
+    	}
+    	
+    	private void removePersonRec(int id, int index){
+    	    if(index >= peList.length){
+    	        System.out.println("Person not found");
+    	        return;
+    	    }
+
+    	    if(peList[index] != null && peList[index].id == id){
+    	    	
+    	    	 if(peList[index] instanceof Member){
+    	        Member m = (Member) peList[index];
+    	        Balance -= m.calculate_memberShipPrice();
+    	    }
+    	        peList[index] = peList[PersonCount-1];
+    	        peList[PersonCount-1]=null;
+    	        PersonCount--;
+    	        
+    	        System.out.println("Person removed");
+    	        return;
+    	    }
+    	   
+    	    removePersonRec(id, index+1);
+    	}
+    	
+    	
+    	
+    	// Search person by id-------------------------------------------
+    	public Person searchPerson(int id){
+    	    return searchPersonRec(id, 0);
+    	}
+    	
+    	private Person searchPersonRec(int id, int index){
+    	    if(index >= peList.length){
+    	        return null; // not found
+    	    }
+
+    	    if(peList[index] != null && peList[index].id == id){
+    	        return peList[index];
+    	    }
+
+    	    return searchPersonRec(id, index+1);
+    	}
+    	
 
     // Setters and Getters
 
