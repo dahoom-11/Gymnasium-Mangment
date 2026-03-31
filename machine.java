@@ -2,11 +2,11 @@ public class Machine implements Displayable {
     public String name;
     private static int numOfUses;
 
-    public void Machine(String name, int numOfUses){
+    public void Machine(String name){
         this.name = name;
     }
 
-    public void Use(){
+    public static void Use(){
         numOfUses++;
         System.out.println("Sucess");
     }

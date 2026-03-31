@@ -28,11 +28,12 @@ public class Gym {
     public void AddMember(String name, String id, int ml){ // using recursion
         //Add MemberShip price to Gym Balance
         //every three members need atleast 1 machines and 1 coach
+        //Create a Member object (compostion Relation)
         
         
     }
 
-    public void AddStaff(Staff S){ //using recursion
+    public void AddStaff(String name, String id, int ml){ //using recursion
 
         
     }

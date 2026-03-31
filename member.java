@@ -1,4 +1,4 @@
-public class Member extends Person implements Displayable{
+public class Member extends Person{
     private int memberShipLength; //in months
     private int memberPrice;
     private boolean hasWorkedOut;
@@ -22,12 +22,18 @@ public class Member extends Person implements Displayable{
 
     public int calculate_memberShipPrice(){
         int price = memberShipLength * 100; //The price of one month = 100
-        
         return price;
     }
 
     public void Workout(){
-
+        if(hasWorkedOut == true){
+            System.out.println(name + " Already Worked out");
+        }
+        else{
+            Machine.Use();
+            hasWorkedOut = true;
+            System.out.println(name + " is Working out");
+        }
     }   
 
     

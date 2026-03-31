@@ -58,8 +58,7 @@ public class test{
                                     String id = i.nextLine();
                                     int MemType = i.nextInt();
 
-                                    Member M1 = new Member(name, id, MemType);
-                                    GymList[0].AddMember(M1);
+                                    GymList[0].AddMember(name, id , MemType);
                             }
 
                             
