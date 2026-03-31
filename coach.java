@@ -1,9 +1,8 @@
 public class Coach extends Staff {
     private int numLessons;
 
-    public Coach(String name, String id, int income, int numLesson){
-        super(name, id, income);
-        this.numLessons = numLesson;
+    public Coach(String name, String id){
+        super(name, id);
     }
 
     public int calculate_income(){
@@ -11,12 +10,12 @@ public class Coach extends Staff {
         return numLessons * 100; 
     }
 
+
     public void DisplayInfo(){
         System.out.println("Name: " + name);
         System.out.println("Id: " + id);
         System.out.println("Income: " + income);
         System.out.println("Number of Lessons: " + numLessons);
-
     }
 
 
@@ -27,5 +26,4 @@ public class Coach extends Staff {
     public int getnumLesson(){
         return numLessons;
     }
-
 }

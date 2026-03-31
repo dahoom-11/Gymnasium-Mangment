@@ -1,8 +1,8 @@
 public class Machine implements Displayable {
-    public String name;
+    private String name;
     private static int numOfUses;
 
-    public void Machine(String name){
+    public Machine(String name){
         this.name = name;
     }
 

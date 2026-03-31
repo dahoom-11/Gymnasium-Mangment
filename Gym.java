@@ -21,11 +21,23 @@ public class Gym {
     }
 
 
-    public void AddMachines(String name){ // using recursion
+    public void AddMachines(String name, int index){ // using recursion
         // create the Machine object in this function to make a compostion relation
-    }   
+        if(index > maList.length){
+            System.out.println("No More Space");
+            return; // Stop recursion
+        }
+        else if(maList[index] == null){
+            maList[index] = new Machine(name); // Compostion Relation
+            return; // stop recursion
+        }
+        else{ // The recursive Step
+            index++;
+            AddMachines(name, index);
+        }
+    }
 
-    public void AddMember(String name, String id, int ml){ // using recursion
+    public void AddMember(String name, String id, int ml){
         //Add MemberShip price to Gym Balance
         //every three members need atleast 1 machines and 1 coach
         //Create a Member object (compostion Relation)
