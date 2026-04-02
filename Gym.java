@@ -68,14 +68,14 @@ public class Gym implements Displayable{
 
     public boolean searchMember(Member m){
         for(int i=0; memberCount>i;i++)
-            if(memberList[i].id==m.id && memberList[i].name.equals(m.name))
+            if(memberList[i].id.equals(m.id) && memberList[i].name.equals(m.name))
                 return true;
         return false;
     } 
 
     public boolean removeMember(Member m){
     	for(int i=0; i<memberCount; i++)
-            if(memberList[i].id == m.id && memberList[i].name.equals(m.name)){
+            if(memberList[i].id.equals(m.id) && memberList[i].name.equals(m.name)){
                 memberList[i]=memberList[memberCount-1];
                 memberList[memberCount-1]=null;
                 memberCount--;
@@ -87,7 +87,7 @@ public class Gym implements Displayable{
                 
     	
     public void addStaff(Staff s){
-        if(coachCount < staffList.length) {
+        if(staffcount < staffList.length) {
             staffList[staffcount] = s;
             staffcount++;
             if( s instanceof Coach){

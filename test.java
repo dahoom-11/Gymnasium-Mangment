@@ -7,9 +7,9 @@ public class test{
         int count = 0;  
         boolean userMenu1 = true;
         Gym GymList[] = new Gym[3];
-        System.out.print("\nWelcome To The Ultimate Gymnasium-Managment Game?");
+        System.out.print("\nWelcome To The Gymnasium-Managment");
         while(userMenu1){ // Main Menu Loop
-            System.out.println("\n----------------------\n");
+            System.out.println("\n-------------------\n");
 
             System.out.println("1-Create Gym");
             System.out.println("2-Manage Gym");
@@ -45,7 +45,8 @@ public class test{
                 case 2: // Manage Gym Menu
                     boolean chooseMenu = true;
                     while(chooseMenu){      //Choose Gym Menu
-                        System.out.println("\n----------------------\n");
+                        boolean ManageMenu = false;
+                        System.out.println("\n-----------Gymnasium-Managment------------\n");
                         System.out.println("Choose your Gym: ");
 
                         //Loop threw Array of Gyms declared in Case 1
@@ -61,27 +62,30 @@ public class test{
                         if(choice == count+1){
                             break;
                         }
-                        int gymchoice = choice-1; // The Gym's Index That Will be Uses
+                        else if(choice <= count && choice > 0){
+                            ManageMenu = true;
+                        }
+                        int gymchoice = choice-1; // The Gym's Index That Will be Used
                         
                         
-                        boolean ManageMenu = true;
                         while(ManageMenu){ // Manage Menu Start
-                            System.out.println("\n----------------------\n");
+                            System.out.println("\n-----------Gymnasium-Managment------------\n");
                             System.out.println("1-Sign up Member");
-                            System.out.println("2-Workout");
-                            System.out.println("3-Add Machines");
-                            System.out.println("4-Add Coach");
-                            System.out.println("5-Get a Coaching Leasson");
-                            System.out.println("6-Display Gym info");
-                            System.out.println("7-Go Back");
+                            System.out.println("2-Remove Member");
+                            System.out.println("3-Workout");
+                            System.out.println("4-Add Machines");
+                            System.out.println("5-Add Coach");
+                            System.out.println("6-Get a Coaching Leasson");
+                            System.out.println("7-Display Gym info");
+                            System.out.println("8-Go Back");
 
                             System.out.println();
                             System.out.print("Enter Option Here: ");    
                             choice = i.nextInt();
 
-                            switch (choice) { // Second Switch
-                                case 1:
-                                    System.out.println("\n----------------------\n");
+                            switch (choice) { // Manage Menu Switch
+                                case 1: // Sign Up Member
+                                    System.out.println("\n-----------Gymnasium-Managment------------\n");
                                     System.out.print("Enter Name: ");
                                     name = i.next();
                                     System.out.print("Enter ID: ");
@@ -92,8 +96,26 @@ public class test{
                                     Member M1 = new Member(name, id, MemType);
                                     GymList[gymchoice].addMember(M1); 
                                     break;
-                                case 2:
-                                    System.out.println("\n----------------------\n");
+
+                                case 2: // Remove Member
+                                    if(GymList[gymchoice].getmemberCount() == 0){
+                                        System.out.println("No Member");
+                                        break;
+                                    }
+                                    System.out.println("\n-----------Gymnasium-Managment------------\n");
+                                    for(int i3 = 0;i3<GymList[gymchoice].getmemberCount();i3++){
+                                        System.out.println(i3+1 + "-" + GymList[gymchoice].getMember(i3).name);
+                                    }
+                                    System.out.println();
+                                    System.out.print("Enter Option Here: ");
+                                    choice = i.nextInt();
+                                    System.out.println();
+                                    Member rm = GymList[gymchoice].getMember(choice - 1);
+                                    GymList[gymchoice].removeMember(rm);
+                                    break;
+
+                                case 3:// Workout
+                                    System.out.println("\n-----------Gymnasium-Managment------------\n");
                                     for(int i2 = 0;i2<GymList[gymchoice].getmemberCount();i2++){
                                         System.out.println(i2+1 + "-" + GymList[gymchoice].getMember(i2).name);
                                     }
@@ -105,14 +127,15 @@ public class test{
                                     GymList[gymchoice].getMember(choice-1).Workout();
                                     break;
                                 
-                                case 3:
-                                    System.out.println("\n----------------------\n");
+                                case 4: //Add Machine
+                                    System.out.println("\n-----------Gymnasium-Managment------------\n");
                                     System.out.print("Enter Machine Name: ");
                                     String Mname = i.next();
                                     GymList[gymchoice].AddMachines(Mname, 0);
                                     break;
-                                case 4:
-                                    System.out.println("\n----------------------\n");
+
+                                case 5: // Add Coach
+                                    System.out.println("\n-----------Gymnasium-Managment------------\n");
                                     System.out.print("Enter Name: ");
                                     String Cname = i.next();
                                     System.out.print("Enter Id: ");
@@ -120,13 +143,14 @@ public class test{
                                     Staff C1 = new Coach(Cname, Cid,0);
                                     GymList[gymchoice].addStaff(C1);
                                     break;
-                                case 5:
+
+                                case 6:
                                     if(GymList[gymchoice].getcoachCount() == 0){
                                         System.out.println("\nNo Coaches Added");
                                         break;
                                     }
                                     else{
-                                        System.out.println("\n----------------------\n");
+                                        System.out.println("\n-----------Gymnasium-Managment------------\n");
                                         for(int i3 = 0;i3 < GymList[gymchoice].getcoachCount();i3++){
                                             if(GymList[gymchoice].getCoach(i3) instanceof Coach){
                                                 System.out.println(i3+1 + "-" + GymList[gymchoice].getCoach(i3).name);
@@ -140,47 +164,55 @@ public class test{
                                         C2.doCoachingLesson();
                                         break;
                                     }
-
                                 
-                                case 6:
+                                case 7:
                                     GymList[gymchoice].displayInfo();
                                     break;
                                 
-                                case 7:
+                                case 8:
                                     ManageMenu = false;
+                                    break;
+                                default:
+                                    System.out.println();
+                                    System.out.println("Choose An Available Option");
                                     break;
 
                                 }   
                             }
-                            break;
+                            
                         }     
                         break;
-                
-                case 3:
-                    // Error handling must be done for no gym to delete
-                    
+                case 3: // Delete Gym                  
                     for(int i4 = 0;i4<count;i4++){
                         System.out.println(i4+1 + "-" +  GymList[i4].getName());
                     }
-                    int delchoice = i.nextInt() - 1;
-                    if(delchoice>count || delchoice < 0){
+                    System.out.println(count+1 + "-Go Back");
+
+                    System.out.println();
+                    System.out.print("Enter Option Here: ");
+                    choice = i.nextInt();
+                    int delchoice = choice - 1;
+                    if(choice == count+1 || delchoice > count || delchoice < 0){
                         break;
                     }
                     else{
                         GymList[delchoice] = GymList[count - 1];
                         GymList[count - 1] = null;
                         System.out.println("\nGym Deleted");
+                        
                         count--;
                         break;
                     }
+                
                 case 4:
                     userMenu1 = false;
-                    
-                    
+                    break;
 
-                
+                default:
+                    System.out.println();
+                    System.out.println("Choose An Available Option");
+                    break;
             }
-            
         }
     }
 }

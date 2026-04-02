@@ -1,12 +1,12 @@
 public class Machine implements Displayable {
     private String name;
-    private static int numOfUses;
+    private int numOfUses;
 
     public Machine(String name){
         this.name = name;
     }
 
-    public static void Use(){
+    public void Use(){
         numOfUses++;
         System.out.println("Sucess");
     }
