@@ -1,56 +1,146 @@
-public class Gym {
+
+public class Gym implements Displayable{
+	
     private String name;
-    private int Balance;
+    private int balance;
 
-    private Member peList[];
-    private int MemberCount;
     
-    private Staff stList[];
-    private int StaffCount;
+    private Member memberList[];
+    private int memberCount;
+    
+    private Staff staffList[];
+    private int coachCount;
+    private int staffcount;
+    
+    private Machine machineList[];
+    private int machineCount;
 
-    private Machine maList[];
-    private int MachineCount;
-
-    public Gym(String name, int MemberLength, int StaffLength,  int MachineLength){ // constructor
-        setName(name);
-        setBalance(Balance);
-        
-        peList = new Member[MemberLength];
-        stList = new Staff[StaffLength];
-        maList = new Machine[MachineLength];
+    public Gym(String name, int memberLength, int MachineLength, int staffLength ){ // constructor
+        this.name = name;
+      
+       memberList = new Member[memberLength];
+       machineList = new Machine[MachineLength];
+       staffList = new Staff[staffLength];
     }
 
 
+    
     public void AddMachines(String name, int index){ // using recursion
         // create the Machine object in this function to make a compostion relation
-        if(index > maList.length){
+        if(index >= machineList.length){
             System.out.println("No More Space");
             return; // Stop recursion
         }
-        else if(maList[index] == null){
-            maList[index] = new Machine(name); // Compostion Relation
+        else if(machineList[index] == null){
+            machineList[index] = new Machine(name); //Compostion Relation
+            machineCount++;
             return; // stop recursion
         }
-        else{ // The recursive Step
+        else{ //The recursive Step
             index++;
             AddMachines(name, index);
         }
     }
 
-    public void AddMember(String name, String id, int ml){
-        //Add MemberShip price to Gym Balance
-        //every three members need atleast 1 machines and 1 coach
-        //Create a Member object (compostion Relation)
-        
-        
-    }
+    	 
+    	
+    	
+        //If member then add it to the array
+        //Add MemberShip price to Gym balance
 
-    public void AddStaff(String name, String id, int ml){ //using recursion
-
-        
-    }
-
+        //If other add it normally
+    	
     
+
+    public void addMember(Member m){
+        if(memberCount < memberList.length) {
+            memberList[memberCount] = m;
+            memberCount++;
+
+            balance += m.calculate_memberShipPrice();
+                                
+            }
+        else {
+            System.out.println("Full");
+        }
+        return;
+    }
+
+    public boolean searchMember(Member m){
+        for(int i=0; memberCount>i;i++)
+            if(memberList[i].id==m.id && memberList[i].name.equals(m.name))
+                return true;
+        return false;
+    } 
+
+    public boolean removeMember(Member m){
+    	for(int i=0; i<memberCount; i++)
+            if(memberList[i].id == m.id && memberList[i].name.equals(m.name)){
+                memberList[i]=memberList[memberCount-1];
+                memberList[memberCount-1]=null;
+                memberCount--;
+                return true;
+            }
+    	return false;
+    				
+    }
+                
+    	
+    public void addStaff(Staff s){
+        if(coachCount < staffList.length) {
+            staffList[staffcount] = s;
+            staffcount++;
+            if( s instanceof Coach){
+            coachCount++;
+            }
+        }
+        else {
+            System.out.println("Full");
+        }
+        return;
+    }
+
+    public void displayInfo(){
+        System.out.println("Name: " + name);
+        System.out.println("Balance: " + balance);    
+        System.out.println("Amount of Members: " + memberCount);
+        System.out.println("Total Amount of MemberShip length (in months): " + Calculate_TotalMemberShipLength()); // print here
+        System.out.println("Amount of Coachs: " + coachCount);
+        System.out.println("Total Number of Lessons Done: " + Calculate_TotalLessonsDone());
+        System.out.println("Amount of Machines: " + machineCount);
+        System.out.println("Total Number of Uses: " + Calculate_TotalNumberOfUses());
+
+
+    }
+
+    public int Calculate_TotalMemberShipLength(){
+        int total = 0;
+        for(int i = 0;i<memberCount;i++){
+            total += memberList[i].getMembershipLength();
+        }
+        return total;
+    }
+
+    public int Calculate_TotalLessonsDone(){
+        int total = 0;
+        for(int i = 0; i<coachCount;i++){
+            if(staffList[i] instanceof Coach){
+                Coach c = (Coach) staffList[i];
+                total += c.getnumLesson();
+            }
+        }
+        return total;
+    }
+
+    public int Calculate_TotalNumberOfUses(){
+        int total = 0;
+        for(int i = 0;i<machineCount;i++){
+            total += machineList[i].getnumOfUses();
+        }
+        return total;
+    }
+    
+    	
 
     // Setters and Getters
 
@@ -59,15 +149,31 @@ public class Gym {
     }
 
     public int getBalance() {
-        return Balance;
+        return balance;
+    }
+
+    public int getmemberCount(){
+        return memberCount;
+    }
+
+    public int getcoachCount(){
+        return coachCount;
     }
 
     public void setName(String name){
         this.name = name;
     }
 
-    public void setBalance(int Balance) {
-        this.Balance = Balance;
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+    
+    public Staff getCoach(int index){ // Needs Work
+        return staffList[index];
+    }
+
+    public Member getMember(int index){
+        return memberList[index];
     }
 
 }
