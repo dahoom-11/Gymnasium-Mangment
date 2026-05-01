@@ -22,11 +22,14 @@ public class Coach extends Staff {
     }
 
 
-    public void displayInfo(){
-        System.out.println("Name: " + name);
-        System.out.println("Id: " + id);
-        System.out.println("Income: " + income);
-        System.out.println("Number of Lessons: " + numLessons);
+    public String displayInfo(){
+        String Info =""" 
+        "Name: " + name
+        "Id: " + id
+        "Income: " + income
+        "Number of Lessons: " + numLessons
+        """;
+        return Info;
     }
 
 

@@ -13,11 +13,12 @@ public class Member extends Person {
     }
 
     @Override
-    public void displayInfo(){  // Display member info
+    public String displayInfo(){  // Display member info
         System.out.println("Member name: "+ name);
         System.out.println("Member ID: "+ id);
         System.out.println("Membership lenght: "+ memberShipLength+ " months");
         System.out.println("Membership price: "+ memberPrice+ " RS");
+        return "";
     }
 
 

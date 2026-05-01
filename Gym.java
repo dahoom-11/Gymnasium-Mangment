@@ -100,17 +100,27 @@ public class Gym implements Displayable{
         return;
     }
 
-    public void displayInfo(){
-        System.out.println("Name: " + name);
-        System.out.println("Balance: " + balance);    
-        System.out.println("Amount of Members: " + memberCount);
-        System.out.println("Total Amount of MemberShip length (in months): " + Calculate_TotalMemberShipLength()); // print here
-        System.out.println("Amount of Coachs: " + coachCount);
-        System.out.println("Total Number of Lessons Done: " + Calculate_TotalLessonsDone());
-        System.out.println("Amount of Machines: " + machineCount);
-        System.out.println("Total Number of Uses: " + Calculate_TotalNumberOfUses());
-
-
+    public String displayInfo(){
+        String Info = """ 
+        Name:  + %s
+        Balance:  + %d
+        Amount of Members:  + %d
+        Total Amount of MemberShip length (in months):  + %d
+        Amount of Coachs:  + %d
+        Total Number of Lessons Done: " + %d
+        Amount of Machines:  + %d
+        Total Number of Uses:  + %d
+        """.formatted(
+            name, 
+            balance, 
+            memberCount, 
+            Calculate_TotalMemberShipLength(), 
+            coachCount, 
+            Calculate_TotalLessonsDone(), 
+            machineCount, 
+            Calculate_TotalNumberOfUses()
+        );
+        return Info;
     }
 
     public int Calculate_TotalMemberShipLength(){

@@ -11,9 +11,10 @@ public class Machine implements Displayable {
         System.out.println("Sucess");
     }
 
-    public void displayInfo(){
+    public String displayInfo(){
         System.out.println("Name: " + name);
         System.out.println("Number of Uses: " + numOfUses);
+        return "";
     }
 
     public int getnumOfUses(){

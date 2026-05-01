@@ -1,4 +1,8 @@
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 public class test{
     
@@ -13,11 +17,12 @@ public class test{
 
             System.out.println("1-Create Gym");
             System.out.println("2-Manage Gym");
-            System.out.println("3-Delete Gym");1
+            System.out.println("3-Delete Gym");
             System.out.println("4-Exit Program");
             System.out.println();
             System.out.print("Enter Option Here: ");
             int choice = i.nextInt();
+            System.out.println();
             //The Array that holds All the Gyms
         
             switch(choice){ // Main Menu Switch
@@ -37,8 +42,17 @@ public class test{
                     // Gym Attributes
 
                     // add to Gym list
+                    GymList[count] = new Gym(name, NumMem, NumSta, NumMac);
                     
-                    GymList[count] = new Gym(name, NumMem, NumSta, NumMac);;
+                    //making the file and writing on it
+                    File Gymfile = new File(name + "_Gym.txt");
+                    try(FileWriter F1 = new FileWriter(Gymfile)){
+                        F1.write(GymList[count].displayInfo());
+                    } 
+                    catch(IOException e){   
+                        System.out.println("Couldn't write on the file ");
+                    }
+
                     count++;
                     break;
                     // User back to main menu not done yet
@@ -80,8 +94,9 @@ public class test{
                             System.out.println("8-Go Back");
 
                             System.out.println();
-                            System.out.print("Enter Option Here: ");    
+                            System.out.print("Enter Option Here: ");  
                             choice = i.nextInt();
+                            System.out.println();  
 
                             switch (choice) { // Manage Menu Switch
                                 case 1: // Sign Up Member
@@ -144,7 +159,7 @@ public class test{
                                     GymList[gymchoice].addStaff(C1);
                                     break;
 
-                                case 6:
+                                case 6://Get coaching Lessong
                                     if(GymList[gymchoice].getcoachCount() == 0){
                                         System.out.println("\nNo Coaches Added");
                                         break;
@@ -165,8 +180,17 @@ public class test{
                                         break;
                                     }
                                 
-                                case 7:
-                                    GymList[gymchoice].displayInfo();
+                                case 7://Display Info
+                                    File s = new File(GymList[gymchoice].getName()+_Gym.txt");
+                                    try(Scanner Sca = new Scanner(s)){
+                                        while(Sca.hasNextLine()){
+                                            System.out.println(Sca.nextLine());
+                                        }
+                                    }
+                                    catch(FileNotFoundException e){
+                                        e.setStackTrace(null);
+                                    }
+
                                     break;
                                 
                                 case 8:
@@ -177,7 +201,15 @@ public class test{
                                     System.out.println("Choose An Available Option");
                                     break;
 
-                                }   
+                                }
+                                    //Write The Info of the gym
+                                    try(FileWriter F1 = new FileWriter(GymList[gymchoice].getName()+"Gym.txt")){
+                                        F1.write(GymList[gymchoice].displayInfo());
+                                    } 
+                                    catch(IOException e){   
+                                        System.out.println("Couldn't write on the file ");
+                                    }
+                                
                             }
                             
                         }     
@@ -192,14 +224,20 @@ public class test{
                     System.out.print("Enter Option Here: ");
                     choice = i.nextInt();
                     int delchoice = choice - 1;
+
                     if(choice == count+1 || delchoice > count || delchoice < 0){
                         break;
                     }
                     else{
+                        File deleted = new File(GymList[delchoice].getName()+"Gym.txt");
                         GymList[delchoice] = GymList[count - 1];
                         GymList[count - 1] = null;
-                        System.out.println("\nGym Deleted");
-                        
+                        if(deleted.delete()){
+                            System.out.println("\nGym Deleted");
+                        }
+                        else{
+                            System.out.println("Gym not deleted");
+                        }
                         count--;
                         break;
                     }
