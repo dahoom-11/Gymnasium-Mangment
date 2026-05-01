@@ -13,7 +13,7 @@ public class test{
 
             System.out.println("1-Create Gym");
             System.out.println("2-Manage Gym");
-            System.out.println("3-Delete Gym");
+            System.out.println("3-Delete Gym");1
             System.out.println("4-Exit Program");
             System.out.println();
             System.out.print("Enter Option Here: ");
@@ -26,7 +26,6 @@ public class test{
                         System.out.println("no more space");
                         break;
                     }
-                    // Gym Attributes
                     System.out.print("Enter: Gym name: ");
                     String name = i.next();
                     System.out.print("Capacity of Members: ");
@@ -35,6 +34,7 @@ public class test{
                     int NumSta = i.nextInt();   
                     System.out.print("Capacity of Machines: ");
                     int NumMac = i.nextInt();
+                    // Gym Attributes
 
                     // add to Gym list
                     

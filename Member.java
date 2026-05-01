@@ -28,11 +28,10 @@ public class Member extends Person {
         return price;
     }
 
-    
-    // member behavior (Workout
+
 
     
-    // Simulate workout
+
     public void Workout(){
     	HasWorkedOut=true;
     	 System.out.println(name+" Has worked out");
