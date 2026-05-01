@@ -130,18 +130,23 @@ public class test{
                                     break;
 
                                 case 3:// Workout
-                                    System.out.println("\n-----------Gymnasium-Managment------------\n");
-                                    for(int i2 = 0;i2<GymList[gymchoice].getmemberCount();i2++){
-                                        System.out.println(i2+1 + "-" + GymList[gymchoice].getMember(i2).name);
+                                    if(GymList[gymchoice].getmemberCount() != 0){
+                                        System.out.println("\n-----------Gymnasium-Managment------------\n");
+                                        for(int i2 = 0;i2<GymList[gymchoice].getmemberCount();i2++){
+                                            System.out.println(i2+1 + "-" + GymList[gymchoice].getMember(i2).name);
+                                        }
+    
+                                        System.out.println();
+                                        System.out.print("Enter Option Here: ");
+                                        choice = i.nextInt();
+                                        System.out.println();
+                                        GymList[gymchoice].getMember(choice-1).Workout();
+                                        break;
                                     }
-
-                                    System.out.println();
-                                    System.out.print("Enter Option Here: ");
-                                    choice = i.nextInt();
-                                    System.out.println();
-                                    GymList[gymchoice].getMember(choice-1).Workout();
-                                    break;
-                                
+                                    else{
+                                        System.out.println("No Member to workout");
+                                        break;
+                                    }
                                 case 4: //Add Machine
                                     System.out.println("\n-----------Gymnasium-Managment------------\n");
                                     System.out.print("Enter Machine Name: ");
@@ -159,7 +164,7 @@ public class test{
                                     GymList[gymchoice].addStaff(C1);
                                     break;
 
-                                case 6://Get coaching Lessong
+                                case 6:// Get coaching lesson
                                     if(GymList[gymchoice].getcoachCount() == 0){
                                         System.out.println("\nNo Coaches Added");
                                         break;
@@ -181,7 +186,7 @@ public class test{
                                     }
                                 
                                 case 7://Display Info
-                                    File s = new File(GymList[gymchoice].getName()+_Gym.txt");
+                                    File s = new File(GymList[gymchoice].getName()+"_Gym.txt");
                                     try(Scanner Sca = new Scanner(s)){
                                         while(Sca.hasNextLine()){
                                             System.out.println(Sca.nextLine());
@@ -229,7 +234,7 @@ public class test{
                         break;
                     }
                     else{
-                        File deleted = new File(GymList[delchoice].getName()+"Gym.txt");
+                        File deleted = new File(GymList[delchoice].getName()+"_Gym.txt");
                         GymList[delchoice] = GymList[count - 1];
                         GymList[count - 1] = null;
                         if(deleted.delete()){
