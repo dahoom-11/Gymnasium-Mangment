@@ -280,6 +280,14 @@ class CreateGymFrame extends JFrame {
                         JOptionPane.showMessageDialog(self, "Max members cannot exceed 10.");
                         return;
                     }
+                    if (numSta > 10) {
+                        JOptionPane.showMessageDialog(self, "Max staff cannot exceed 10.");
+                        return;
+                    }
+                    if (numMac > 10) {
+                        JOptionPane.showMessageDialog(self, "Max machines cannot exceed 10.");
+                        return;
+                    }
                     Test.gyms[Test.gymCount] = new Gym(name, numMem, numSta, numMac);
                     Test.gymCount++;
                     JOptionPane.showMessageDialog(self, "Gym \"" + name + "\" created!");

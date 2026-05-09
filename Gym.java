@@ -88,14 +88,14 @@ public class Gym implements Displayable{
 
     public String displayInfo(){
         String Info = """ 
-        Name:  + %s
-        Balance:  + %d
-        Amount of Members:  + %d
-        Total Amount of MemberShip length (in months):  + %d
-        Amount of Coachs:  + %d
-        Total Number of Lessons Done: " + %d
-        Amount of Machines:  + %d
-        Total Number of Uses:  + %d
+        Name: %s
+        Balance: %d
+        Amount of Members: %d
+        Total Amount of MemberShip length (in months): %d
+        Amount of Coachs: %d
+        Total Number of Lessons Done: %d
+        Amount of Machines: %d
+        Total Number of Uses: %d
         """.formatted(
             name, 
             balance, 
