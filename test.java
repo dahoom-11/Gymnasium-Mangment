@@ -4,353 +4,330 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-// ── Shared state ──────────────────────────────────────────────
+// ── Shared state (used by both console and frames) ────────────
 public class Test {
     static Gym[] gyms     = new Gym[3];
     static int   gymCount = 0;
 
     public static void main(String[] args) {
-        MainMenuFrame menu = new MainMenuFrame();
-        menu.setVisible(true);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nWelcome To The Gymnasium-Managment");
+
+        boolean running = true;
+        while (running) {
+            System.out.println("\n-------------------\n");
+            System.out.println("1-Create Gym");
+            System.out.println("2-Manage Gym");
+            System.out.println("3-Delete Gym");
+            System.out.println("4-Exit Program");
+            System.out.println();
+            System.out.print("Enter Option Here: ");
+            int choice = scanner.nextInt();
+            System.out.println();
+
+            switch (choice) {
+
+                case 1: // ── Open Frame 1 (Create Gym) ─────────
+                    if (Test.gymCount == 3) {
+                        System.out.println("No more space (max 3 gyms).");
+                        break;
+                    }
+                    final CreateGymFrame cgf = new CreateGymFrame();
+                    // show Frame 1 on the GUI thread, then wait for it to close
+                    try {
+                        SwingUtilities.invokeAndWait(new Runnable() {
+                            public void run() { cgf.setVisible(true); }
+                        });
+                    } catch (Exception ex) {}
+                    while (cgf.isShowing()) {
+                        try { Thread.sleep(100); } catch (InterruptedException ex) {}
+                    }
+                    break;
+
+                case 2: // Manage Gym
+                    if (Test.gymCount == 0) {
+                        System.out.println("No gyms created yet.");
+                        break;
+                    }
+                    boolean chooseMenu = true;
+                    while (chooseMenu) {
+                        System.out.println("\n-----------Gymnasium-Managment------------\n");
+                        System.out.println("Choose your Gym: ");
+                        for (int s = 0; s < Test.gymCount; s++) {
+                            System.out.println((s + 1) + "-" + Test.gyms[s].getName());
+                        }
+                        System.out.println((Test.gymCount + 1) + "-Go back");
+                        System.out.println();
+                        System.out.print("Enter Option Here: ");
+                        choice = scanner.nextInt();
+
+                        if (choice == Test.gymCount + 1) break;
+                        if (choice < 1 || choice > Test.gymCount) continue;
+
+                        final int gymchoice = choice - 1;
+                        boolean ManageMenu = true;
+
+                        while (ManageMenu) {
+                            System.out.println("\n-----------Gymnasium-Managment------------\n");
+                            System.out.println("1-Sign up Member");
+                            System.out.println("2-Remove Member");
+                            System.out.println("3-Workout");
+                            System.out.println("4-Add Machines");
+                            System.out.println("5-Add Coach");
+                            System.out.println("6-Get a Coaching Leasson");
+                            System.out.println("7-Display Gym info");
+                            System.out.println("8-Go Back");
+                            System.out.println();
+                            System.out.print("Enter Option Here: ");
+                            choice = scanner.nextInt();
+                            System.out.println();
+
+                            switch (choice) {
+                                case 1: // Sign Up Member
+                                    System.out.print("Enter Name: ");
+                                    String name = scanner.next();
+                                    System.out.print("Enter ID: ");
+                                    String id = scanner.next();
+                                    System.out.print("Enter MemberShip Length (in Months): ");
+                                    int MemType = scanner.nextInt();
+                                    try {
+                                        Member M1 = new Member(name, id, MemType);
+                                        Test.gyms[gymchoice].addMember(M1);
+                                    } catch (InvalidIdException e) {
+                                        System.out.println(e.getMessage());
+                                    }
+                                    break;
+
+                                case 2: // Remove Member
+                                    if (Test.gyms[gymchoice].getmemberCount() == 0) {
+                                        System.out.println("No Member");
+                                        break;
+                                    }
+                                    for (int idx = 0; idx < Test.gyms[gymchoice].getmemberCount(); idx++) {
+                                        System.out.println((idx + 1) + "-" + Test.gyms[gymchoice].getMember(idx).name);
+                                    }
+                                    System.out.print("Enter Option Here: ");
+                                    choice = scanner.nextInt();
+                                    Member rm = Test.gyms[gymchoice].getMember(choice - 1);
+                                    Test.gyms[gymchoice].removeMember(rm);
+                                    break;
+
+                                case 3: // Workout
+                                    if (Test.gyms[gymchoice].getmemberCount() == 0) {
+                                        System.out.println("No Member to workout");
+                                        break;
+                                    }
+                                    for (int i2 = 0; i2 < Test.gyms[gymchoice].getmemberCount(); i2++) {
+                                        System.out.println((i2 + 1) + "-" + Test.gyms[gymchoice].getMember(i2).name);
+                                    }
+                                    System.out.print("Enter Option Here: ");
+                                    choice = scanner.nextInt();
+                                    Test.gyms[gymchoice].getMember(choice - 1).Workout();
+                                    break;
+
+                                case 4: // Add Machine
+                                    System.out.print("Enter Machine Name: ");
+                                    String Mname = scanner.next();
+                                    Test.gyms[gymchoice].AddMachines(Mname);
+                                    break;
+
+                                case 5: // Add Coach
+                                    System.out.print("Enter Name: ");
+                                    String Cname = scanner.next();
+                                    System.out.print("Enter Id: ");
+                                    String Cid = scanner.next();
+                                    try {
+                                        Staff C1 = new Coach(Cname, Cid, 0);
+                                        Test.gyms[gymchoice].addStaff(C1);
+                                    } catch (InvalidIdException e) {
+                                        System.out.println(e.getMessage());
+                                    }
+                                    break;
+
+                                case 6: // Coaching Lesson
+                                    if (Test.gyms[gymchoice].getcoachCount() == 0) {
+                                        System.out.println("No Coaches Added");
+                                        break;
+                                    }
+                                    for (int i3 = 0; i3 < Test.gyms[gymchoice].getcoachCount(); i3++) {
+                                        System.out.println((i3 + 1) + "-" + Test.gyms[gymchoice].getCoach(i3).name);
+                                    }
+                                    System.out.print("Enter Option Here: ");
+                                    choice = scanner.nextInt();
+                                    Coach C2 = (Coach) Test.gyms[gymchoice].getCoach(choice - 1);
+                                    C2.doCoachingLesson();
+                                    break;
+
+                                case 7: // ── Open Frame 2 (Gym Info) ──────────
+                                    SwingUtilities.invokeLater(new Runnable() {
+                                        public void run() {
+                                            new GymInfoFrame(gymchoice).setVisible(true);
+                                        }
+                                    });
+                                    break;
+
+                                case 8:
+                                    ManageMenu = false;
+                                    break;
+
+                                default:
+                                    System.out.println("Choose An Available Option");
+                                    break;
+                            }
+
+                            if (ManageMenu) {
+                                try (FileWriter fw = new FileWriter(Test.gyms[gymchoice].getName() + "_Gym.txt")) {
+                                    fw.write(Test.gyms[gymchoice].displayInfo());
+                                } catch (IOException e) {
+                                    System.out.println("Couldn't write on the file.");
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                case 3: // Delete Gym
+                    if (Test.gymCount == 0) {
+                        System.out.println("No gyms to delete.");
+                        break;
+                    }
+                    for (int i4 = 0; i4 < Test.gymCount; i4++) {
+                        System.out.println((i4 + 1) + "-" + Test.gyms[i4].getName());
+                    }
+                    System.out.println((Test.gymCount + 1) + "-Go Back");
+                    System.out.println();
+                    System.out.print("Enter Option Here: ");
+                    choice = scanner.nextInt();
+                    int delchoice = choice - 1;
+
+                    if (choice == Test.gymCount + 1 || delchoice >= Test.gymCount || delchoice < 0) {
+                        break;
+                    }
+                    File deleted = new File(Test.gyms[delchoice].getName() + "_Gym.txt");
+                    Test.gyms[delchoice] = Test.gyms[Test.gymCount - 1];
+                    Test.gyms[Test.gymCount - 1] = null;
+                    Test.gymCount--;
+                    if (deleted.delete()) {
+                        System.out.println("\nGym Deleted");
+                    } else {
+                        System.out.println("Gym not deleted");
+                    }
+                    break;
+
+                case 4:
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Choose An Available Option");
+                    break;
+            }
+        }
     }
 }
 
 // ─────────────────────────────────────────────────────────────
-//  FRAME 1 — Main Menu
+//  FRAME 1 — Create Gym
 // ─────────────────────────────────────────────────────────────
-class MainMenuFrame extends JFrame {
+class CreateGymFrame extends JFrame {
 
-    MainMenuFrame() {
-        super("Gymnasium Management");
-        setSize(400, 320);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    CreateGymFrame() {
+        super("Create a Gym");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
         // North: title
-        JLabel title = new JLabel("Gymnasium Management", JLabel.CENTER);
-        title.setFont(new Font("SansSerif", Font.BOLD, 18));
-        title.setBorder(BorderFactory.createEmptyBorder(16, 0, 8, 0));
+        JLabel title = new JLabel("Create a New Gym", JLabel.CENTER);
+        title.setFont(new Font("SansSerif", Font.BOLD, 16));
+        title.setBorder(BorderFactory.createEmptyBorder(14, 0, 6, 0));
         add(title, BorderLayout.NORTH);
 
-        // Center: 4 buttons
-        JPanel center = new JPanel(new GridLayout(4, 1, 0, 10));
-        center.setBorder(BorderFactory.createEmptyBorder(4, 30, 24, 30));
+        // Center: form
+        JPanel form = new JPanel(new GridLayout(5, 2, 10, 10));
+        form.setBorder(BorderFactory.createEmptyBorder(4, 30, 16, 30));
 
+        final JTextField fName = new JTextField();
+        final JTextField fMem  = new JTextField();
+        final JTextField fSta  = new JTextField();
+        final JTextField fMac  = new JTextField();
+
+        form.add(new JLabel("Gym Name:"));            form.add(fName);
+        form.add(new JLabel("Max Members (<=10):"));  form.add(fMem);
+        form.add(new JLabel("Max Staff:"));            form.add(fSta);
+        form.add(new JLabel("Max Machines:"));         form.add(fMac);
+        form.add(new JLabel());
         JButton btnCreate = new JButton("Create Gym");
-        JButton btnManage = new JButton("Manage Gym");
-        JButton btnDelete = new JButton("Delete Gym");
-        JButton btnExit   = new JButton("Exit");
+        form.add(btnCreate);
 
-        center.add(btnCreate);
-        center.add(btnManage);
-        center.add(btnDelete);
-        center.add(btnExit);
-        add(center, BorderLayout.CENTER);
+        add(form, BorderLayout.CENTER);
 
-        // ── Listeners ─────────────────────────────────────────
-        final MainMenuFrame self = this;
+        final CreateGymFrame self = this;
 
-        // Create Gym
         btnCreate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (Test.gymCount == 3) {
-                    JOptionPane.showMessageDialog(self, "No more space (max 3 gyms).");
+                String name = fName.getText().trim();
+                if (name.isEmpty()) {
+                    JOptionPane.showMessageDialog(self, "Please enter a gym name.");
                     return;
                 }
-                String name = JOptionPane.showInputDialog(self, "Gym Name:");
-                if (name == null || name.trim().isEmpty()) return;
-
-                String memStr = JOptionPane.showInputDialog(self, "Max Members (max 10):");
-                if (memStr == null) return;
-                String staStr = JOptionPane.showInputDialog(self, "Max Staff:");
-                if (staStr == null) return;
-                String macStr = JOptionPane.showInputDialog(self, "Max Machines:");
-                if (macStr == null) return;
-
                 try {
-                    int numMem = Integer.parseInt(memStr.trim());
-                    int numSta = Integer.parseInt(staStr.trim());
-                    int numMac = Integer.parseInt(macStr.trim());
+                    int numMem = Integer.parseInt(fMem.getText().trim());
+                    int numSta = Integer.parseInt(fSta.getText().trim());
+                    int numMac = Integer.parseInt(fMac.getText().trim());
                     if (numMem > 10) {
                         JOptionPane.showMessageDialog(self, "Max members cannot exceed 10.");
                         return;
                     }
-                    if (numSta > 10) {
-                        JOptionPane.showMessageDialog(self, "Max staff cannot exceed 10.");
-                        return;
-                    }
-                    if (numMac > 10) {
-                        JOptionPane.showMessageDialog(self, "Max machines cannot exceed 10.");
-                        return;
-                    }
-                    Test.gyms[Test.gymCount] = new Gym(name.trim(), numMem, numSta, numMac);
+                    Test.gyms[Test.gymCount] = new Gym(name, numMem, numSta, numMac);
                     Test.gymCount++;
-                    JOptionPane.showMessageDialog(self, "Gym \"" + name.trim() + "\" created!");
+                    JOptionPane.showMessageDialog(self, "Gym \"" + name + "\" created!");
+                    self.dispose(); // closing signals the console to continue
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(self, "Please enter valid numbers.");
                 }
             }
         });
-
-        // Manage Gym
-        btnManage.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Test.gymCount == 0) {
-                    JOptionPane.showMessageDialog(self, "No gyms created yet.");
-                    return;
-                }
-                String[] names = new String[Test.gymCount];
-                for (int i = 0; i < Test.gymCount; i++) {
-                    names[i] = Test.gyms[i].getName();
-                }
-                String chosen = (String) JOptionPane.showInputDialog(self,
-                    "Select a gym to manage:", "Manage Gym",
-                    JOptionPane.PLAIN_MESSAGE, null, names, names[0]);
-                if (chosen == null) return;
-
-                for (int i = 0; i < Test.gymCount; i++) {
-                    if (Test.gyms[i].getName().equals(chosen)) {
-                        self.setVisible(false);
-                        new GymDetailsFrame(i, self).setVisible(true);
-                        return;
-                    }
-                }
-            }
-        });
-
-        // Delete Gym
-        btnDelete.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Test.gymCount == 0) {
-                    JOptionPane.showMessageDialog(self, "No gyms created yet.");
-                    return;
-                }
-                String[] names = new String[Test.gymCount];
-                for (int i = 0; i < Test.gymCount; i++) {
-                    names[i] = Test.gyms[i].getName();
-                }
-                String chosen = (String) JOptionPane.showInputDialog(self,
-                    "Select a gym to delete:", "Delete Gym",
-                    JOptionPane.PLAIN_MESSAGE, null, names, names[0]);
-                if (chosen == null) return;
-
-                for (int i = 0; i < Test.gymCount; i++) {
-                    if (Test.gyms[i].getName().equals(chosen)) {
-                        int confirm = JOptionPane.showConfirmDialog(self,
-                            "Delete \"" + chosen + "\"?", "Confirm",
-                            JOptionPane.YES_NO_OPTION);
-                        if (confirm != JOptionPane.YES_OPTION) return;
-
-                        File f = new File(Test.gyms[i].getName() + "_Gym.txt");
-                        for (int j = i; j < Test.gymCount - 1; j++) {
-                            Test.gyms[j] = Test.gyms[j + 1];
-                        }
-                        Test.gyms[Test.gymCount - 1] = null;
-                        Test.gymCount--;
-                        f.delete();
-                        JOptionPane.showMessageDialog(self, "\"" + chosen + "\" deleted.");
-                        return;
-                    }
-                }
-            }
-        });
-
-        // Exit
-        btnExit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
     }
 }
 
-//  FRAME 2 — Gym Details
-class GymDetailsFrame extends JFrame {
+// ─────────────────────────────────────────────────────────────
+//  FRAME 2 — Gym Info
+// ─────────────────────────────────────────────────────────────
+class GymInfoFrame extends JFrame {
 
-    GymDetailsFrame(final int gymIndex, final MainMenuFrame menuFrame) {
-        super("Gym Details: " + Test.gyms[gymIndex].getName());
-        setSize(420, 420);
+    GymInfoFrame(final int gymIndex) {
+        super("Gym Info: " + Test.gyms[gymIndex].getName());
+        setSize(420, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
         // North: gym name
-        JLabel gymName = new JLabel(Test.gyms[gymIndex].getName(), JLabel.CENTER);
-        gymName.setFont(new Font("SansSerif", Font.BOLD, 16));
-        gymName.setBorder(BorderFactory.createEmptyBorder(16, 0, 8, 0));
+        JLabel gymName = new JLabel("Gym: " + Test.gyms[gymIndex].getName(), JLabel.CENTER);
+        gymName.setFont(new Font("SansSerif", Font.BOLD, 15));
+        gymName.setBorder(BorderFactory.createEmptyBorder(14, 0, 6, 0));
         add(gymName, BorderLayout.NORTH);
 
-        // Center: 4x2 button grid
-        JPanel center = new JPanel(new GridLayout(4, 2, 10, 10));
-        center.setBorder(BorderFactory.createEmptyBorder(4, 24, 24, 24));
+        // Center: info in a scrollable text area
+        JTextArea area = new JTextArea(Test.gyms[gymIndex].displayInfo());
+        area.setEditable(false);
+        area.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        area.setMargin(new Insets(10, 10, 10, 10));
+        add(new JScrollPane(area), BorderLayout.CENTER);
 
-        JButton btnSignUp  = new JButton("Sign Up Member");
-        JButton btnRemove  = new JButton("Remove Member");
-        JButton btnWorkout = new JButton("Workout");
-        JButton btnMachine = new JButton("Add Machine");
-        JButton btnCoach   = new JButton("Add Coach");
-        JButton btnLesson  = new JButton("Coaching Lesson");
-        JButton btnInfo    = new JButton("Display Info");
-        JButton btnBack    = new JButton("Back");
+        // South: Close button
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton btnClose = new JButton("Close");
+        south.add(btnClose);
+        add(south, BorderLayout.SOUTH);
 
-        center.add(btnSignUp);  center.add(btnRemove);
-        center.add(btnWorkout); center.add(btnMachine);
-        center.add(btnCoach);   center.add(btnLesson);
-        center.add(btnInfo);    center.add(btnBack);
-        add(center, BorderLayout.CENTER);
+        final GymInfoFrame self = this;
 
-        // ── Listeners ─────────────────────────────────────────
-        final GymDetailsFrame self = this;
-
-        // Back
-        btnBack.addActionListener(new ActionListener() {
+        btnClose.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 self.dispose();
-                menuFrame.setVisible(true);
-            }
-        });
-
-        // Sign Up Member
-        btnSignUp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String name = JOptionPane.showInputDialog(self, "Member Name:");
-                if (name == null || name.trim().isEmpty()) return;
-                String id = JOptionPane.showInputDialog(self, "Member ID (exactly 4 chars):");
-                if (id == null) return;
-                String monthsStr = JOptionPane.showInputDialog(self, "Membership Length (months):");
-                if (monthsStr == null) return;
-                try {
-                    int months = Integer.parseInt(monthsStr.trim());
-                    Member m = new Member(name.trim(), id.trim(), months);
-                    Test.gyms[gymIndex].addMember(m);
-                    JOptionPane.showMessageDialog(self, name.trim() + " signed up!");
-                } catch (InvalidIdException ex) {
-                    JOptionPane.showMessageDialog(self, ex.getMessage());
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(self, "Enter a valid number for months.");
-                } catch (IllegalArgumentException ex) {
-                    JOptionPane.showMessageDialog(self, ex.getMessage());
-                }
-            }
-        });
-
-        // Remove Member
-        btnRemove.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int mc = Test.gyms[gymIndex].getmemberCount();
-                if (mc == 0) {
-                    JOptionPane.showMessageDialog(self, "No members in this gym.");
-                    return;
-                }
-                String[] names = new String[mc];
-                for (int i = 0; i < mc; i++) {
-                    names[i] = Test.gyms[gymIndex].getMember(i).name;
-                }
-                String chosen = (String) JOptionPane.showInputDialog(self,
-                    "Select member to remove:", "Remove Member",
-                    JOptionPane.PLAIN_MESSAGE, null, names, names[0]);
-                if (chosen == null) return;
-                for (int i = 0; i < mc; i++) {
-                    Member rm = Test.gyms[gymIndex].getMember(i);
-                    if (rm.name.equals(chosen)) {
-                        Test.gyms[gymIndex].removeMember(rm);
-                        JOptionPane.showMessageDialog(self, chosen + " removed.");
-                        return;
-                    }
-                }
-            }
-        });
-
-        // Workout
-        btnWorkout.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int mc = Test.gyms[gymIndex].getmemberCount();
-                if (mc == 0) {
-                    JOptionPane.showMessageDialog(self, "No members to workout.");
-                    return;
-                }
-                String[] names = new String[mc];
-                for (int i = 0; i < mc; i++) {
-                    names[i] = Test.gyms[gymIndex].getMember(i).name;
-                }
-                String chosen = (String) JOptionPane.showInputDialog(self,
-                    "Who is working out?", "Workout",
-                    JOptionPane.PLAIN_MESSAGE, null, names, names[0]);
-                if (chosen == null) return;
-                for (int i = 0; i < mc; i++) {
-                    Member m = Test.gyms[gymIndex].getMember(i);
-                    if (m.name.equals(chosen)) {
-                        m.Workout();
-                        JOptionPane.showMessageDialog(self, chosen + " finished their workout!");
-                        return;
-                    }
-                }
-            }
-        });
-
-        // Add Machine
-        btnMachine.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String mName = JOptionPane.showInputDialog(self, "Enter machine name:");
-                if (mName == null || mName.trim().isEmpty()) return;
-                Test.gyms[gymIndex].AddMachines(mName.trim());
-                JOptionPane.showMessageDialog(self, "Machine \"" + mName.trim() + "\" added.");
-            }
-        });
-
-        // Add Coach
-        btnCoach.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String name = JOptionPane.showInputDialog(self, "Coach Name:");
-                if (name == null || name.trim().isEmpty()) return;
-                String id = JOptionPane.showInputDialog(self, "Coach ID (exactly 4 chars):");
-                if (id == null) return;
-                try {
-                    Staff coach = new Coach(name.trim(), id.trim(), 0);
-                    Test.gyms[gymIndex].addStaff(coach);
-                    JOptionPane.showMessageDialog(self, "Coach \"" + name.trim() + "\" added!");
-                } catch (InvalidIdException ex) {
-                    JOptionPane.showMessageDialog(self, ex.getMessage());
-                }
-            }
-        });
-
-        // Coaching Lesson
-        btnLesson.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int cc = Test.gyms[gymIndex].getcoachCount();
-                if (cc == 0) {
-                    JOptionPane.showMessageDialog(self, "No coaches in this gym.");
-                    return;
-                }
-                String[] names = new String[cc];
-                for (int i = 0; i < cc; i++) {
-                    names[i] = Test.gyms[gymIndex].getCoach(i).name;
-                }
-                String chosen = (String) JOptionPane.showInputDialog(self,
-                    "Select a coach:", "Coaching Lesson",
-                    JOptionPane.PLAIN_MESSAGE, null, names, names[0]);
-                if (chosen == null) return;
-                for (int i = 0; i < cc; i++) {
-                    Staff s = Test.gyms[gymIndex].getCoach(i);
-                    if (s.name.equals(chosen) && s instanceof Coach) {
-                        Coach c = (Coach) s;
-                        c.doCoachingLesson();
-                        JOptionPane.showMessageDialog(self, "Lesson done with " + chosen + "!");
-                        return;
-                    }
-                }
-            }
-        });
-
-        // Display Info
-        btnInfo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(self,
-                    Test.gyms[gymIndex].displayInfo(),
-                    "Info: " + Test.gyms[gymIndex].getName(),
-                    JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
