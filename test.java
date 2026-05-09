@@ -145,8 +145,8 @@ public class Test {
 
         form.add(makeLabel("Gym Name:"));           form.add(fName);
         form.add(makeLabel("Max Members (<=10):")); form.add(fMem);
-        form.add(makeLabel("Max Staff:"));           form.add(fSta);
-        form.add(makeLabel("Max Machines:"));        form.add(fMac);
+        form.add(makeLabel("Max Staff(<=10):"));           form.add(fSta);
+        form.add(makeLabel("Max Machines(<=10):"));        form.add(fMac);
 
         JButton btnCancel = makeBtn("Cancel", false);
         JButton btnCreate = makeBtn("Create", true);
@@ -174,9 +174,19 @@ public class Test {
                     int numMem = Integer.parseInt(fMem.getText().trim());
                     int numSta = Integer.parseInt(fSta.getText().trim());
                     int numMac = Integer.parseInt(fMac.getText().trim());
-                    if (numMem > 10) {
+                    if (numMem > 10 ) {
                         JOptionPane.showMessageDialog(frame,
                             "Max members cannot exceed 10.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if (numSta > 10 ) {
+                        JOptionPane.showMessageDialog(frame,
+                            "Max staff cannot exceed 10.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if (numMac > 10 ) {
+                        JOptionPane.showMessageDialog(frame,
+                            "Max machines cannot exceed 10.", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     gyms[gymCount] = new Gym(name, numMem, numSta, numMac);

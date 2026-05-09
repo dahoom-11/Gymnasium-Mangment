@@ -1,0 +1,8 @@
+Name:  + 33d
+Balance:  + 300
+Amount of Members:  + 1
+Total Amount of MemberShip length (in months):  + 3
+Amount of Coachs:  + 0
+Total Number of Lessons Done: " + 0
+Amount of Machines:  + 0
+Total Number of Uses:  + 0
