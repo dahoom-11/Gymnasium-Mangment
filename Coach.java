@@ -1,12 +1,12 @@
-
 public class Coach extends Staff {
     private int numLessons;
 
-    public Coach(String name, String id, int income ){
+    public Coach(String name, String id, int income ) throws InvalidIdException{
         super(name, id);
         calculate_income();
     }
-
+    
+ //Increases lesson count and updates income
     public void doCoachingLesson() {
     	numLessons++;
     	calculate_income();
@@ -21,14 +21,14 @@ public class Coach extends Staff {
         return income; 
     }
 
-
+//Return coach information
     public String displayInfo(){
-        String Info =""" 
-        "Name: " + name
-        "Id: " + id
-        "Income: " + income
+        String Info =
+        "Name: " + name+
+        "Id: " + id+
+        "Income: " + income+
         "Number of Lessons: " + numLessons
-        """;
+        ;
         return Info;
     }
 

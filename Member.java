@@ -1,4 +1,3 @@
-
 public class Member extends Person {
     private int memberShipLength; //in months
     private int memberPrice;
@@ -6,8 +5,12 @@ public class Member extends Person {
     
     
     // Constructor
-    public Member(String name, String id,  int mt){
-        super(name,id);
+    public Member(String name, String id,  int mt) throws InvalidIdException{
+    super(name,id);
+    if(mt<=0) {
+    		throw new IllegalArgumentException("Membership must be greater than 0");
+    	}
+        
         this.memberShipLength = mt;
         this.memberPrice = calculate_memberShipPrice();
     }

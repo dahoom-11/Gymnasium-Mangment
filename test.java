@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-public class test{
+public class Test{
     
     public static void main(String args[]){
         Scanner i = new Scanner(System.in);
@@ -33,7 +33,7 @@ public class test{
                     }
                     System.out.print("Enter: Gym name: ");
                     String name = i.next();
-                    System.out.print("Capacity of Members: ");
+                    System.out.print("Capacity of Members(max is 10): ");
                     int NumMem = i.nextInt();
                     System.out.print("Capacity of Staff: ");
                     int NumSta = i.nextInt();   
@@ -107,9 +107,12 @@ public class test{
                                     String id = i.next();
                                     System.out.print("Enter MemberShip Length (in Months): ");
                                     int MemType = i.nextInt();
-                                    
+                                  try {  
                                     Member M1 = new Member(name, id, MemType);
                                     GymList[gymchoice].addMember(M1); 
+                                  }catch(InvalidIdException e) {
+                                	  System.out.println(e.getMessage());
+                                  }
                                     break;
 
                                 case 2: // Remove Member
@@ -117,14 +120,13 @@ public class test{
                                         System.out.println("No Member");
                                         break;
                                     }
-                                    System.out.println("\n-----------Gymnasium-Managment------------\n");
-                                    for(int i3 = 0;i3<GymList[gymchoice].getmemberCount();i3++){
-                                        System.out.println(i3+1 + "-" + GymList[gymchoice].getMember(i3).name);
+                                    System.out.println("\n-----------Gymnasium-Management------------\n");
+                                    for(int idx = 0; idx < GymList[gymchoice].getmemberCount(); idx++){
+                                        System.out.println((idx+1) + "-" + GymList[gymchoice].getMember(idx).name);
                                     }
                                     System.out.println();
                                     System.out.print("Enter Option Here: ");
                                     choice = i.nextInt();
-                                    System.out.println();
                                     Member rm = GymList[gymchoice].getMember(choice - 1);
                                     GymList[gymchoice].removeMember(rm);
                                     break;
@@ -151,7 +153,7 @@ public class test{
                                     System.out.println("\n-----------Gymnasium-Managment------------\n");
                                     System.out.print("Enter Machine Name: ");
                                     String Mname = i.next();
-                                    GymList[gymchoice].AddMachines(Mname, 0);
+                                    GymList[gymchoice].AddMachines(Mname);
                                     break;
 
                                 case 5: // Add Coach
@@ -160,8 +162,11 @@ public class test{
                                     String Cname = i.next();
                                     System.out.print("Enter Id: ");
                                     String Cid = i.next();
+                                    try {
                                     Staff C1 = new Coach(Cname, Cid,0);
-                                    GymList[gymchoice].addStaff(C1);
+                                    GymList[gymchoice].addStaff(C1);}
+                                    catch(InvalidIdException e) {
+                                  	  System.out.println(e.getMessage());}
                                     break;
 
                                 case 6:// Get coaching lesson

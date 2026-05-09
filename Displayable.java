@@ -1,5 +1,4 @@
-
 public interface Displayable {
-	public String displayInfo();
+    String displayInfo();
 
 }

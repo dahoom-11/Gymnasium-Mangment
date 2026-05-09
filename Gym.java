@@ -1,103 +1,89 @@
-
 public class Gym implements Displayable{
 	
     private String name;
     private int balance;
 
     
-    private Member memberList[];
+    private LinkedList memberList;
     private int memberCount;
     
-    private Staff staffList[];
+    private LinkedList staffList;
     private int coachCount;
     private int staffcount;
     
-    private Machine machineList[];
+    private LinkedList machineList;
     private int machineCount;
 
     public Gym(String name, int memberLength, int MachineLength, int staffLength ){ // constructor
         this.name = name;
       
-       memberList = new Member[memberLength];
-       machineList = new Machine[MachineLength];
-       staffList = new Staff[staffLength];
+       memberList = new LinkedList("Members");
+       machineList = new LinkedList("Machines");
+       staffList = new LinkedList("Staff");
     }
 
 
-    
-    public void AddMachines(String name, int index){ // using recursion
-        // create the Machine object in this function to make a compostion relation
-        if(index >= machineList.length){
-            System.out.println("No More Space");
-            return; // Stop recursion
-        }
-        else if(machineList[index] == null){
-            machineList[index] = new Machine(name); //Compostion Relation
-            machineCount++;
-            return; // stop recursion
-        }
-        else{ //The recursive Step
-            index++;
-            AddMachines(name, index);
-        }
+ //Add machine to the gym
+    public void AddMachines(String name){
+        Machine m = new Machine(name); // composition
+        machineList.insertAtBack(m);
+        machineCount++;
     }
-
-    	 
-    	
-    	
-        //If member then add it to the array
-        //Add MemberShip price to Gym balance
-
-        //If other add it normally
     	
     
-
+ //Add new member to the gym and updates the balance
     public void addMember(Member m){
-        if(memberCount < memberList.length) {
-            memberList[memberCount] = m;
-            memberCount++;
-
-            balance += m.calculate_memberShipPrice();
-                                
-            }
-        else {
-            System.out.println("Full");
-        }
-        return;
+        memberList.insertAtBack(m);
+        memberCount++;
+        balance+=m.calculate_memberShipPrice();
     }
 
+    
+ //Searche for member in the linked list by id and name
     public boolean searchMember(Member m){
-        for(int i=0; memberCount>i;i++)
-            if(memberList[i].id.equals(m.id) && memberList[i].name.equals(m.name))
-                return true;
-        return false;
-    } 
+        Node current = memberList.getHead();
 
+        while(current != null){
+            Member member = (Member) current.getData();
+            if(member.id.equals(m.id) && member.name.equals(m.name)){
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;}
+   
+
+    
+ //Remove member from the linked list
     public boolean removeMember(Member m){
-    	for(int i=0; i<memberCount; i++)
-            if(memberList[i].id.equals(m.id) && memberList[i].name.equals(m.name)){
-                memberList[i]=memberList[memberCount-1];
-                memberList[memberCount-1]=null;
+        Node current = memberList.getHead();
+        Node prev = null;
+        
+        while(current != null){
+            Member member = (Member) current.getData();
+            if(member.id.equals(m.id) && member.name.equals(m.name)){
+                if(prev == null){        // Remove first element
+                    memberList.setHead(current.getNext());
+                } else {
+                    prev.setNext(current.getNext());
+                }
                 memberCount--;
                 return true;
             }
-    	return false;
-    				
-    }
+            prev = current;
+            current = current.getNext();
+        }
+        return false;}
+   
                 
-    	
+ //Add staff to the gym
     public void addStaff(Staff s){
-        if(staffcount < staffList.length) {
-            staffList[staffcount] = s;
-            staffcount++;
-            if( s instanceof Coach){
+        staffList.insertAtBack(s);
+        staffcount++;
+
+        if(s instanceof Coach){
             coachCount++;
-            }
         }
-        else {
-            System.out.println("Full");
-        }
-        return;
     }
 
     public String displayInfo(){
@@ -122,37 +108,52 @@ public class Gym implements Displayable{
         );
         return Info;
     }
-
+    
+ //Calculates total membership length of all members
     public int Calculate_TotalMemberShipLength(){
         int total = 0;
-        for(int i = 0;i<memberCount;i++){
-            total += memberList[i].getMembershipLength();
+        Node current = memberList.getHead();
+
+        while(current != null){
+            Member m = (Member) current.getData();
+            total += m.getMembershipLength();
+            current = current.getNext();
         }
         return total;
     }
-
+    
+ //Calculates total coaching lessons done by all coaches
     public int Calculate_TotalLessonsDone(){
         int total = 0;
-        for(int i = 0; i<coachCount;i++){
-            if(staffList[i] instanceof Coach){
-                Coach c = (Coach) staffList[i];
+        Node current = staffList.getHead();
+
+        while(current != null){
+            Staff s = (Staff) current.getData();
+            if(s instanceof Coach){
+                Coach c = (Coach) s;
                 total += c.getnumLesson();
             }
+            current = current.getNext();
         }
         return total;
     }
 
+ //Calculates total number of machine uses
     public int Calculate_TotalNumberOfUses(){
         int total = 0;
-        for(int i = 0;i<machineCount;i++){
-            total += machineList[i].getnumOfUses();
+        Node current = machineList.getHead();
+        
+        while(current != null){
+            Machine m = (Machine) current.getData();
+            total += m.getnumOfUses();
+            current = current.getNext();
         }
         return total;
     }
     
     	
 
-    // Setters and Getters
+    //Setters and Getters
 
     public String getName(){
         return name;
@@ -178,12 +179,42 @@ public class Gym implements Displayable{
         this.balance = balance;
     }
     
-    public Staff getCoach(int index){ // Needs Work
-        return staffList[index];
+    public Staff getCoach(int index){
+        Node current = staffList.getHead();
+        int i = 0;
+
+        while(current != null){
+            if(i == index){
+                return (Staff) current.getData();
+            }
+            current = current.getNext();
+            i++;
+        }
+        return null;
     }
 
     public Member getMember(int index){
-        return memberList[index];
+        Node current = memberList.getHead();
+        int i = 0;
+
+        while(current != null){
+            if(i == index){
+                return (Member) current.getData();
+            }
+            current = current.getNext();
+            i++;
+        }
+        return null;
+    }
+
+    public LinkedList getMemberList(){
+        return memberList;
+    }
+    public LinkedList getStaffList(){
+        return staffList;
+    }
+    public LinkedList getmachineList(){
+        return machineList;
     }
 
 }

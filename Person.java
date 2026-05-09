@@ -5,14 +5,12 @@ public abstract class Person implements Displayable {
     protected String id;
     
      // Constructor
-    public Person(String name, String id){
+    public Person(String name, String id) throws InvalidIdException{
         this.name = name;
-        if(id.length() == 4){
-            this.id = id;
+        if(id.length() != 4){
+            throw new InvalidIdException("ID must be 4 digits");
         }
-        else{
-            this.id = "1111";
-        }
+        this.id = id;
     }  
 
 

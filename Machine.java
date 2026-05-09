@@ -6,11 +6,12 @@ public class Machine implements Displayable {
         this.name = name;
     }
 
+    // 
     public void Use(){
         numOfUses++;
         System.out.println("Sucess");
     }
-
+// display the machine info
     public String displayInfo(){
         System.out.println("Name: " + name);
         System.out.println("Number of Uses: " + numOfUses);
